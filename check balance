@@ -1,0 +1,41 @@
+# -*- coding: utf-8 -*-
+"""
+Script for checking wallet balance on the Arbitrum network.
+
+Author: [Your Name]
+License: MIT
+"""
+
+from web3 import Web3
+
+def main():
+    """Main function to check wallet balance."""
+    # Set the RPC endpoint URL for Arbitrum
+    ARB_RPC_URL = "https://arb1.arbitrum.io/rpc"  # Public RPC URL
+
+    # Initialize Web3
+    web3 = Web3(Web3.HTTPProvider(ARB_RPC_URL))
+
+    # Check connection
+    if not web3.isConnected():
+        print("Error: Unable to connect to the Arbitrum network.")
+        return
+
+    # Specify the wallet address
+    wallet_address = "0xYourWalletAddress"  # Replace with your Ethereum/Arbitrum address
+
+    # Validate the wallet address
+    if not web3.isAddress(wallet_address):
+        print("Error: Invalid wallet address.")
+        return
+
+    try:
+        # Fetch wallet balance
+        balance_wei = web3.eth.get_balance(wallet_address)  # Balance in Wei
+        balance_eth = web3.fromWei(balance_wei, 'ether')  # Convert Wei to Ether
+        print(f"Wallet balance for {wallet_address}: {balance_eth} ETH")
+    except Exception as e:
+        print(f"Error fetching balance: {e}")
+
+if __name__ == "__main__":
+    main()
